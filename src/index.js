@@ -7,6 +7,7 @@ import initializeDb from './db';
 import middleware from './middleware';
 import api from './api';
 import config from './config.json';
+import path from 'path';
 
 let app = express();
 app.server = http.createServer(app);
@@ -31,6 +32,8 @@ initializeDb( db => {
 
 	// api router
 	app.use('/api', api({ config, db }));
+
+	app.use('/',  express.static(path.join(__dirname, 'view')))
 
 	app.server.listen(process.env.PORT || config.port, () => {
 		console.log(`Started on port ${app.server.address().port}`);
